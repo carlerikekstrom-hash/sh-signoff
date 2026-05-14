@@ -763,7 +763,15 @@ function showScreen(n) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen' + n).classList.add('active');
   window.scrollTo(0, 0);
+  // Apply any pending canvas resize when screen2 becomes active
+  if (n === 2 && _canvasNeedsResize) {
+    _canvasNeedsResize = false;
+    resizeCanvas();
+    if (sigDrawn) { clearSig(); toast('Screen was rotated — please re-sign'); }
+  }
 }
+
+var _canvasNeedsResize = false;
 
 function goToScreen2() {
   const name = document.getElementById('clientName').value.trim();
@@ -789,7 +797,24 @@ function goToScreen2() {
 
   // Resize canvas after screen is visible
   showScreen(2);
-  setTimeout(resizeCanvas, 50);
+  // Use rAF to wait for layout — retries until canvas has valid width
+  // Prevents race condition where user can sign before canvas is sized
+  let _rafAttempts = 0;
+  function _waitForLayout() {
+    const w = canvas.getBoundingClientRect().width;
+    if (w > 0 || _rafAttempts > 20) {
+      resizeCanvas();
+      // If sigDrawn was stale-true from a pre-layout touch, reset it
+      if (sigDrawn) {
+        clearSig();
+        toast('Please sign below');
+      }
+    } else {
+      _rafAttempts++;
+      requestAnimationFrame(_waitForLayout);
+    }
+  }
+  requestAnimationFrame(_waitForLayout);
 }
 
 function goBack() {
@@ -863,8 +888,13 @@ function saveRecord(record) {
   try {
     const records = JSON.parse(localStorage.getItem('sh_signoff_records') || '[]');
     records.unshift(record);
-    // Keep last 100 records
-    if (records.length > 100) records.splice(100);
+    // Keep last 100 records — clean up orphaned sig keys for trimmed records
+    if (records.length > 100) {
+      const trimmed = records.splice(100);
+      trimmed.forEach(r => {
+        try { localStorage.removeItem('sh_sig_' + r.refNum); } catch(e) {}
+      });
+    }
     localStorage.setItem('sh_signoff_records', JSON.stringify(records));
   } catch(e) { console.warn('Storage error:', e); }
 }
@@ -904,6 +934,10 @@ function loadDraft() {
 }
 
 function shareRecord() {
+  if (!currentRecord || !currentRecord.refNum) {
+    toast('No record to share');
+    return;
+  }
   const r = currentRecord;
   const text = [
     'SWEDISH HAMMER LLC — JOB SIGN-OFF',
@@ -979,8 +1013,10 @@ window.addEventListener('resize', () => {
   if (document.getElementById('screen2').classList.contains('active')) {
     const wasDrawn = sigDrawn;
     resizeCanvas();
-    // If already signed, warn user
     if (wasDrawn) toast('Screen rotated — please re-sign');
+  } else {
+    // Mark canvas as needing resize when screen2 becomes active
+    _canvasNeedsResize = true;
   }
 });
 
