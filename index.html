@@ -183,6 +183,44 @@ body {
 .btn-row { display: flex; gap: 10px; margin-top: 8px; }
 .btn-row .btn { flex: 1; }
 
+/* ── JOB TAGS ── */
+.job-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
+.job-tag-group-label {
+  width: 100%;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-top: 8px;
+  margin-bottom: 2px;
+}
+.job-tag-group-label:first-child { margin-top: 0; }
+.job-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 7px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--gray);
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  line-height: 1;
+}
+.job-tag.active {
+  background: var(--gold);
+  color: var(--navy);
+  border-color: var(--gold);
+}
+.job-tag-misc { border-style: dashed; }
+.job-tag-misc.active { background: var(--navy-light); color: var(--gold-light); border-color: var(--gold); border-style: solid; }
+
 /* ── WARRANTY BLOCK ── */
 .warranty-block {
   background: rgba(201,168,76,0.06);
@@ -485,48 +523,48 @@ body {
     <div class="divider">Job Info</div>
 
     <div class="field">
-      <label>Job Type</label>
-      <select id="jobType">
-        <option value="">Select a service...</option>
-        <optgroup label="Doors & Windows">
-          <option>Interior Door Install / Replace</option>
-          <option>Exterior Door Install / Replace</option>
-          <option>Door Hardware / Lock Install</option>
-          <option>Window Install / Replace</option>
-          <option>Window Hardware / Lock</option>
-        </optgroup>
-        <optgroup label="Trim & Carpentry">
-          <option>Baseboard / Casing Install</option>
-          <option>Crown Molding Install</option>
-          <option>Closet System Install</option>
-          <option>Shelving / Built-In</option>
-          <option>Trim Repair / Replace</option>
-        </optgroup>
-        <optgroup label="Drywall">
-          <option>Drywall Patch / Repair</option>
-          <option>Drywall Hang &amp; Finish</option>
-          <option>Texture Match</option>
-        </optgroup>
-        <optgroup label="Decks & Outdoor">
-          <option>Deck Build / Frame</option>
-          <option>Deck Board Replace</option>
-          <option>Fence Repair / Install</option>
-          <option>Gate Install</option>
-        </optgroup>
-        <optgroup label="Flooring">
-          <option>Hardwood Install / Repair</option>
-          <option>Tile Install</option>
-          <option>Epoxy Floor Coating</option>
-          <option>Subfloor Repair</option>
-        </optgroup>
-        <optgroup label="General Repairs">
-          <option>Handyman / General Repair</option>
-          <option>Caulking / Weatherstripping</option>
-          <option>Cabinet Repair / Hardware</option>
-          <option>Home Assessment</option>
-          <option>Other (see scope below)</option>
-        </optgroup>
-      </select>
+      <label>Services Performed <span style="font-weight:400;text-transform:none;letter-spacing:0;font-family:'Barlow',sans-serif;font-size:11px;">(tap all that apply)</span></label>
+      <div class="job-tags" id="jobTags">
+        <div class="job-tag-group-label">Doors &amp; Windows</div>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Interior Door Install / Replace</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Exterior Door Install / Replace</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Door Hardware / Lock Install</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Window Install / Replace</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Window Hardware / Lock</button>
+        <div class="job-tag-group-label">Trim &amp; Carpentry</div>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Baseboard / Casing Install</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Crown Molding Install</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Closet System Install</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Shelving / Built-In</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Trim Repair / Replace</button>
+        <div class="job-tag-group-label">Drywall</div>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Drywall Patch / Repair</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Drywall Hang &amp; Finish</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Texture Match</button>
+        <div class="job-tag-group-label">Decks &amp; Outdoor</div>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Deck Build / Frame</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Deck Board Replace</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Fence Repair / Install</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Gate Install</button>
+        <div class="job-tag-group-label">Flooring</div>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Hardwood Install / Repair</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Tile Install</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Epoxy Floor Coating</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Subfloor Repair</button>
+        <div class="job-tag-group-label">General Repairs</div>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Handyman / General Repair</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Caulking / Weatherstripping</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Cabinet Repair / Hardware</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Home Assessment</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Fixture Install / Replace</button>
+        <button type="button" class="job-tag" onclick="toggleJobTag(this)">Paint / Finish</button>
+        <div class="job-tag-group-label">Miscellaneous</div>
+        <button type="button" class="job-tag job-tag-misc" onclick="toggleMisc(this)">+ Miscellaneous / Other</button>
+      </div>
+      <div id="miscField" style="display:none;margin-top:8px;">
+        <input type="text" id="miscDesc" placeholder="Describe the service (e.g. TV mount, epoxy countertop...)" oninput="updateJobTagSummary()" style="background:var(--navy-mid);border:1px solid var(--border-strong);border-radius:var(--radius);color:var(--white);font-family:'Barlow',sans-serif;font-size:14px;padding:10px 12px;width:100%;outline:none;">
+      </div>
+      <div id="jobTagSummary" style="display:none;margin-top:10px;padding:8px 10px;background:rgba(201,168,76,0.08);border:1px solid var(--border);border-radius:var(--radius);font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--gold-light);letter-spacing:0.5px;"></div>
     </div>
 
     <div class="field">
@@ -555,8 +593,8 @@ body {
     <div class="divider">Warranty</div>
 
     <div class="warranty-block">
-      <strong>90-Day Workmanship Warranty</strong><br>
-      Swedish Hammer LLC warrants all labor performed under this job against defects in workmanship for 90 days from the date of completion. This warranty covers workmanship only and does not cover damage caused by misuse, modification by others, or normal wear and tear. Materials are covered by the manufacturer's warranty.
+      <strong>1-Year Workmanship Warranty</strong><br>
+      Swedish Hammer LLC warrants all labor performed under this job against defects in workmanship for one (1) year from the date of completion. This warranty covers workmanship only and does not cover damage caused by misuse, modification by others, or normal wear and tear. Materials are covered by the manufacturer's warranty.
     </div>
 
     <div class="field">
@@ -620,7 +658,7 @@ body {
         <hr class="job-divider">
         <div class="job-field">
           <div class="job-field-label">Warranty</div>
-          <div class="job-field-value" style="font-size:13px;color:#555;line-height:1.5;">90-Day Workmanship Warranty. Swedish Hammer LLC warrants all labor against defects in workmanship for 90 days from today. Workmanship only — does not cover misuse or normal wear.</div>
+          <div class="job-field-value" style="font-size:13px;color:#555;line-height:1.5;">1-Year Workmanship Warranty. Swedish Hammer LLC warrants all labor against defects in workmanship for one (1) year from the date of completion. Workmanship only — does not cover misuse or normal wear.</div>
         </div>
       </div>
     </div>
@@ -640,7 +678,7 @@ body {
 
     <div class="auth-check">
       <input type="checkbox" id="authCheck">
-      <label for="authCheck">I confirm the work described above has been completed to my satisfaction. I authorize payment as stated and acknowledge the 90-day workmanship warranty.</label>
+      <label for="authCheck">I confirm the work described above has been completed to my satisfaction. I authorize payment as stated and acknowledge the 1-year workmanship warranty.</label>
     </div>
 
     <button class="s2-btn-gold" onclick="completeSignOff()">Complete Sign-Off</button>
@@ -757,6 +795,49 @@ function clearSig() {
 }
 
 // ══════════════════════════════════════
+// JOB TAGS
+// ══════════════════════════════════════
+function toggleJobTag(el) {
+  if (el.classList.contains('job-tag-misc')) return; // handled by toggleMisc
+  el.classList.toggle('active');
+  updateJobTagSummary();
+}
+
+function toggleMisc(el) {
+  el.classList.toggle('active');
+  const miscField = document.getElementById('miscField');
+  miscField.style.display = el.classList.contains('active') ? 'block' : 'none';
+  if (!el.classList.contains('active')) {
+    document.getElementById('miscDesc').value = '';
+  }
+  updateJobTagSummary();
+}
+
+function getSelectedJobTypes() {
+  const selected = [...document.querySelectorAll('.job-tag.active:not(.job-tag-misc)')]
+    .map(el => el.textContent.trim());
+  const miscEl = document.querySelector('.job-tag-misc');
+  if (miscEl && miscEl.classList.contains('active')) {
+    const miscDesc = document.getElementById('miscDesc').value.trim();
+    if (miscDesc) selected.push(miscDesc);
+    else selected.push('Miscellaneous / Other');
+  }
+  return selected;
+}
+
+function updateJobTagSummary() {
+  const types = getSelectedJobTypes();
+  const summary = document.getElementById('jobTagSummary');
+  if (types.length > 0) {
+    summary.style.display = 'block';
+    summary.textContent = types.join(' · ');
+  } else {
+    summary.style.display = 'none';
+    summary.textContent = '';
+  }
+}
+
+// ══════════════════════════════════════
 // SCREEN NAVIGATION
 // ══════════════════════════════════════
 function showScreen(n) {
@@ -776,9 +857,9 @@ var _canvasNeedsResize = false;
 function goToScreen2() {
   const name = document.getElementById('clientName').value.trim();
   const scope = document.getElementById('scopeWork').value.trim();
-  const jobType = document.getElementById('jobType').value;
+  const jobTypes = getSelectedJobTypes();
   if (!name) { toast('Enter client name'); return; }
-  if (!jobType) { toast('Select a job type'); return; }
+  if (jobTypes.length === 0) { toast('Select at least one service'); return; }
   if (!scope) { toast('Enter scope of work'); return; }
 
   // Save draft to localStorage
@@ -789,7 +870,7 @@ function goToScreen2() {
   document.getElementById('s2Date').innerHTML = now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'}) + '<br>' + now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
   document.getElementById('s2ClientName').textContent = name;
   document.getElementById('s2Addr').textContent = document.getElementById('propAddr').value || '—';
-  document.getElementById('s2JobType').textContent = jobType;
+  document.getElementById('s2JobType').textContent = jobTypes.join(', ');
   document.getElementById('s2Scope').textContent = scope;
   const price = parseFloat(document.getElementById('totalPrice').value) || 0;
   document.getElementById('s2Price').textContent = '$' + price.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -845,7 +926,7 @@ function completeSignOff() {
     clientPhone: document.getElementById('clientPhone').value.trim(),
     clientEmail: document.getElementById('clientEmail').value.trim(),
     propAddr: document.getElementById('propAddr').value.trim(),
-    jobType: document.getElementById('jobType').value,
+    jobType: getSelectedJobTypes().join(', '),
     scopeWork: document.getElementById('scopeWork').value.trim(),
     totalPrice: parseFloat(document.getElementById('totalPrice').value) || 0,
     payStatus: document.getElementById('payStatus').value,
@@ -906,7 +987,8 @@ function saveDraft() {
       clientPhone: document.getElementById('clientPhone').value,
       clientEmail: document.getElementById('clientEmail').value,
       propAddr: document.getElementById('propAddr').value,
-      jobType: document.getElementById('jobType').value,
+      jobType: getSelectedJobTypes().join(', '),
+      miscDesc: document.getElementById('miscDesc').value,
       scopeWork: document.getElementById('scopeWork').value,
       totalPrice: document.getElementById('totalPrice').value,
       payStatus: document.getElementById('payStatus').value,
@@ -924,7 +1006,23 @@ function loadDraft() {
     document.getElementById('clientPhone').value = draft.clientPhone || '';
     document.getElementById('clientEmail').value = draft.clientEmail || '';
     document.getElementById('propAddr').value = draft.propAddr || '';
-    document.getElementById('jobType').value = draft.jobType || '';
+    // Restore job tags
+    if (draft.jobType) {
+      const types = Array.isArray(draft.jobType) ? draft.jobType : draft.jobType.split(', ');
+      document.querySelectorAll('.job-tag').forEach(tag => {
+        if (types.includes(tag.textContent.replace('+ ',''))) {
+          tag.classList.add('active');
+          if (tag.classList.contains('job-tag-misc')) {
+            document.getElementById('miscField').style.display = 'block';
+          }
+        }
+      });
+    }
+    // Restore misc description if present
+    if (draft.miscDesc) {
+      document.getElementById('miscDesc').value = draft.miscDesc;
+      updateJobTagSummary();
+    }
     document.getElementById('scopeWork').value = draft.scopeWork || '';
     document.getElementById('totalPrice').value = draft.totalPrice || '';
     document.getElementById('payStatus').value = draft.payStatus || 'Paid in Full';
@@ -956,7 +1054,7 @@ function shareRecord() {
     'PAYMENT: ' + r.payStatus,
     '',
     'SIGNED BY: ' + r.printName,
-    'WARRANTY: 90-Day Workmanship Warranty applies.',
+    'WARRANTY: 1-Year Workmanship Warranty applies.',
     r.addlNotes ? '\nNOTES: ' + r.addlNotes : '',
     '',
     '720-580-3827 · service@swedishhammer.com · swedishhammer.com'
@@ -983,7 +1081,11 @@ function newSignOff() {
   ['clientName','clientPhone','clientEmail','propAddr','scopeWork','totalPrice','addlNotes','printName'].forEach(id => {
     document.getElementById(id).value = '';
   });
-  document.getElementById('jobType').selectedIndex = 0;
+  document.querySelectorAll('.job-tag').forEach(t => t.classList.remove('active'));
+  document.getElementById('miscField').style.display = 'none';
+  document.getElementById('miscDesc').value = '';
+  document.getElementById('jobTagSummary').style.display = 'none';
+  document.getElementById('jobTagSummary').textContent = '';
   document.getElementById('payStatus').selectedIndex = 0;
   document.getElementById('authCheck').checked = false;
   clearSig();
