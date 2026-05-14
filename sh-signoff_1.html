@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d1b2a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SH Sign-Off">
+<title>Swedish Hammer | Job Sign-Off</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:       #0d1b2a;
+  --navy-mid:   #162436;
+  --navy-light: #1e3448;
+  --gold:       #c9a84c;
+  --gold-light: #e2c068;
+  --gold-dim:   #7a6430;
+  --white:      #f5f2ec;
+  --gray:       #8a9aaa;
+  --gray-light: #b0bec5;
+  --green:      #2ecc71;
+  --green-dark: #27ae60;
+  --red:        #e74c3c;
+  --border:     rgba(201,168,76,0.18);
+  --border-strong: rgba(201,168,76,0.4);
+  --radius:     8px;
+  --shadow:     0 8px 32px rgba(0,0,0,0.5);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  background: var(--navy);
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  font-size: 15px;
+  min-height: 100vh;
+  overscroll-behavior: none;
+}
+
+/* ── SCREENS ── */
+.screen { display: none; min-height: 100vh; flex-direction: column; }
+.screen.active { display: flex; }
+
+/* ── TOPBAR ── */
+.topbar {
+  background: var(--navy-mid);
+  border-bottom: 2px solid var(--gold);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.topbar-brand { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--gold); letter-spacing: 2px; }
+.topbar-step {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+/* ── PROGRESS BAR ── */
+.progress-bar {
+  height: 3px;
+  background: var(--navy-light);
+  flex-shrink: 0;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--gold);
+  transition: width 0.4s ease;
+}
+
+/* ── CONTENT ── */
+.content {
+  flex: 1;
+  padding: 24px 20px 40px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 560px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ── SECTION HEADERS ── */
+.screen-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+.screen-sub {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  color: var(--gray);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+/* ── FORM ELEMENTS ── */
+.field { margin-bottom: 16px; }
+.field label {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 6px;
+}
+.field input, .field select, .field textarea {
+  width: 100%;
+  background: var(--navy-mid);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  font-size: 15px;
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); }
+.field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a9aaa' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+.field select option { background: var(--navy-mid); }
+.field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* ── PRICE INPUT ── */
+.price-wrap { position: relative; }
+.price-wrap::before { content: '$'; position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--gold); font-weight: 600; font-size: 15px; }
+.price-wrap input { padding-left: 28px; }
+
+/* ── SECTION DIVIDER ── */
+.divider {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0 16px;
+}
+.divider::after { content: ''; flex: 1; border-top: 1px solid var(--border); }
+
+/* ── BUTTONS ── */
+.btn {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 14px 24px;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+.btn-gold { background: var(--gold); color: var(--navy); }
+.btn-gold:hover { background: var(--gold-light); }
+.btn-gold:active { transform: scale(0.98); }
+.btn-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
+.btn-outline:hover { background: rgba(201,168,76,0.1); }
+.btn-ghost { background: var(--navy-light); color: var(--gray-light); border: 1px solid var(--border-strong); }
+.btn-green { background: var(--green-dark); color: #fff; }
+.btn-green:hover { background: var(--green); }
+.btn-sm { padding: 10px 16px; font-size: 12px; width: auto; display: inline-block; }
+.btn-row { display: flex; gap: 10px; margin-top: 8px; }
+.btn-row .btn { flex: 1; }
+
+/* ── WARRANTY BLOCK ── */
+.warranty-block {
+  background: rgba(201,168,76,0.06);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  font-size: 13px;
+  color: var(--gray-light);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.warranty-block strong { color: var(--gold); font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.5px; }
+
+/* ══════════════════════════════════════
+   SCREEN 2 — CUSTOMER FACING
+══════════════════════════════════════ */
+#screen2 { background: #fff; color: #1a1a1a; }
+#screen2 .topbar { background: #0d1b2a; border-bottom: 2px solid #c9a84c; }
+#screen2 .progress-bar { background: #e8e4db; }
+#screen2 .content { color: #1a1a1a; }
+
+.job-card {
+  background: #f7f4ef;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.job-card-header {
+  background: #0d1b2a;
+  color: #f5f2ec;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.job-card-co { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: #c9a84c; letter-spacing: 2px; }
+.job-card-refnum { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; color: #8a9aaa; margin-top: 2px; }
+.job-card-date { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; color: #8a9aaa; text-align: right; }
+.job-card-body { padding: 18px 20px; }
+.job-field { margin-bottom: 12px; }
+.job-field-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 2px;
+}
+.job-field-value { font-size: 14px; color: #222; line-height: 1.5; }
+.job-field-value.large { font-size: 22px; font-family: 'Bebas Neue', sans-serif; color: #0d1b2a; letter-spacing: 1px; }
+.job-divider { border: none; border-top: 1px solid #e0d9cc; margin: 12px 0; }
+
+/* ── SIGNATURE CANVAS ── */
+.sig-wrap {
+  border: 2px dashed #c9a84c;
+  border-radius: var(--radius);
+  background: #fff;
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.sig-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  color: #c9a84c;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  pointer-events: none;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+.sig-wrap.signed .sig-label { opacity: 0; }
+#sigCanvas { display: block; width: 100%; height: 160px; touch-action: none; cursor: crosshair; }
+.sig-clear {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #888;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+  margin-bottom: 12px;
+  display: block;
+}
+.sig-clear:hover { color: #e74c3c; }
+
+.auth-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f0ece3;
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: #444;
+  line-height: 1.5;
+}
+.auth-check input[type=checkbox] { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; accent-color: #0d1b2a; cursor: pointer; }
+
+.s2-field { margin-bottom: 14px; }
+.s2-field label {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 6px;
+}
+.s2-field input {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #d0c9bc;
+  border-radius: 6px;
+  color: #222;
+  font-family: 'Barlow', sans-serif;
+  font-size: 15px;
+  padding: 12px 14px;
+  outline: none;
+  -webkit-appearance: none;
+}
+.s2-field input:focus { border-color: #c9a84c; }
+
+.s2-btn-gold {
+  width: 100%;
+  background: #c9a84c;
+  color: #0d1b2a;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 2px;
+  padding: 16px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.s2-btn-gold:hover { background: #e2c068; }
+.s2-btn-gold:active { transform: scale(0.98); }
+
+/* ══════════════════════════════════════
+   SCREEN 3 — CONFIRMATION
+══════════════════════════════════════ */
+.confirm-hero {
+  text-align: center;
+  padding: 32px 0 24px;
+}
+.confirm-check {
+  width: 72px;
+  height: 72px;
+  background: var(--green-dark);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 32px;
+  animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+.confirm-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--gold);
+  letter-spacing: 3px;
+  margin-bottom: 4px;
+}
+.confirm-sub { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; }
+
+.ref-block {
+  background: var(--navy-mid);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  margin: 20px 0;
+}
+.ref-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; color: var(--gray); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+.ref-number { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--gold); letter-spacing: 4px; }
+.ref-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; color: var(--gray); letter-spacing: 1px; margin-top: 4px; }
+
+.sig-preview {
+  background: var(--navy-mid);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 16px;
+}
+.sig-preview-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; color: var(--gray); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+.sig-preview img { max-width: 100%; border-radius: 4px; background: #fff; }
+
+.summary-block {
+  background: var(--navy-mid);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 5px 0;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+}
+.summary-row:last-child { border-bottom: none; }
+.summary-row span:first-child { color: var(--gray); font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; font-size: 11px; }
+.summary-row span:last-child { color: var(--white); font-weight: 500; text-align: right; max-width: 60%; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: var(--navy-light);
+  border: 1px solid var(--gold);
+  color: var(--white);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  opacity: 0;
+  transition: all 0.3s;
+  z-index: 999;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── PRINT ── */
+@media print {
+  .topbar, .progress-bar, .btn, .sig-clear, .auth-check, .s2-field, .s2-btn-gold, .btn-ghost { display: none !important; }
+  #screen2 { display: flex !important; }
+  #screen1, #screen3 { display: none !important; }
+  body { background: #fff; }
+  .job-card { box-shadow: none; }
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+@media (max-width: 400px) {
+  .field-row { grid-template-columns: 1fr; }
+  .ref-number { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     SCREEN 1 — CONTRACTOR INTAKE
+══════════════════════════════════════ -->
+<div class="screen active" id="screen1">
+  <div class="topbar">
+    <div class="topbar-brand">⚒ Swedish Hammer</div>
+    <div class="topbar-step">Step 1 of 3 — Job Details</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" style="width:33%"></div></div>
+
+  <div class="content">
+    <div class="screen-title">Job Sign-Off</div>
+    <div class="screen-sub">Fill in before handing device to client</div>
+
+    <div class="divider">Client Info</div>
+
+    <div class="field">
+      <label>Client Name</label>
+      <input type="text" id="clientName" placeholder="Full name" autocomplete="name">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Phone</label>
+        <input type="tel" id="clientPhone" placeholder="(720) 000-0000">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="clientEmail" placeholder="email@address.com">
+      </div>
+    </div>
+    <div class="field">
+      <label>Property Address</label>
+      <input type="text" id="propAddr" placeholder="123 Main St, Lafayette, CO">
+    </div>
+
+    <div class="divider">Job Info</div>
+
+    <div class="field">
+      <label>Job Type</label>
+      <select id="jobType">
+        <option value="">Select a service...</option>
+        <optgroup label="Doors & Windows">
+          <option>Interior Door Install / Replace</option>
+          <option>Exterior Door Install / Replace</option>
+          <option>Door Hardware / Lock Install</option>
+          <option>Window Install / Replace</option>
+          <option>Window Hardware / Lock</option>
+        </optgroup>
+        <optgroup label="Trim & Carpentry">
+          <option>Baseboard / Casing Install</option>
+          <option>Crown Molding Install</option>
+          <option>Closet System Install</option>
+          <option>Shelving / Built-In</option>
+          <option>Trim Repair / Replace</option>
+        </optgroup>
+        <optgroup label="Drywall">
+          <option>Drywall Patch / Repair</option>
+          <option>Drywall Hang &amp; Finish</option>
+          <option>Texture Match</option>
+        </optgroup>
+        <optgroup label="Decks & Outdoor">
+          <option>Deck Build / Frame</option>
+          <option>Deck Board Replace</option>
+          <option>Fence Repair / Install</option>
+          <option>Gate Install</option>
+        </optgroup>
+        <optgroup label="Flooring">
+          <option>Hardwood Install / Repair</option>
+          <option>Tile Install</option>
+          <option>Epoxy Floor Coating</option>
+          <option>Subfloor Repair</option>
+        </optgroup>
+        <optgroup label="General Repairs">
+          <option>Handyman / General Repair</option>
+          <option>Caulking / Weatherstripping</option>
+          <option>Cabinet Repair / Hardware</option>
+          <option>Home Assessment</option>
+          <option>Other (see scope below)</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Scope of Work Completed</label>
+      <textarea id="scopeWork" placeholder="Describe exactly what was done — installed, repaired, replaced, etc. Be specific. This is what the client is signing off on." rows="4"></textarea>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Total Price</label>
+        <div class="price-wrap">
+          <input type="number" id="totalPrice" placeholder="0.00" min="0" step="0.01">
+        </div>
+      </div>
+      <div class="field">
+        <label>Payment Status</label>
+        <select id="payStatus">
+          <option>Paid in Full</option>
+          <option>Deposit Paid — Balance Due</option>
+          <option>Invoice to Follow</option>
+          <option>No Charge</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="divider">Warranty</div>
+
+    <div class="warranty-block">
+      <strong>90-Day Workmanship Warranty</strong><br>
+      Swedish Hammer LLC warrants all labor performed under this job against defects in workmanship for 90 days from the date of completion. This warranty covers workmanship only and does not cover damage caused by misuse, modification by others, or normal wear and tear. Materials are covered by the manufacturer's warranty.
+    </div>
+
+    <div class="field">
+      <label>Additional Notes (Optional)</label>
+      <textarea id="addlNotes" placeholder="Follow-up items, client requests, site conditions, anything to document..." rows="3"></textarea>
+    </div>
+
+    <button class="btn btn-gold" onclick="goToScreen2()" style="margin-top:8px;">Review &amp; Get Signature →</button>
+    <button class="btn btn-ghost" onclick="loadDraft()" style="margin-top:10px;">Load Saved Draft</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 2 — CUSTOMER FACING
+══════════════════════════════════════ -->
+<div class="screen" id="screen2">
+  <div class="topbar">
+    <div class="topbar-brand">⚒ Swedish Hammer</div>
+    <div class="topbar-step">Step 2 of 3 — Client Review</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" style="width:66%"></div></div>
+
+  <div class="content">
+
+    <!-- JOB SUMMARY CARD -->
+    <div class="job-card">
+      <div class="job-card-header">
+        <div>
+          <div class="job-card-co">Swedish Hammer LLC</div>
+          <div class="job-card-refnum">720-580-3827 · service@swedishhammer.com</div>
+        </div>
+        <div class="job-card-date" id="s2Date"></div>
+      </div>
+      <div class="job-card-body">
+        <div class="job-field">
+          <div class="job-field-label">Prepared For</div>
+          <div class="job-field-value" id="s2ClientName" style="font-size:17px;font-weight:600;">—</div>
+        </div>
+        <div class="job-field">
+          <div class="job-field-label">Property</div>
+          <div class="job-field-value" id="s2Addr">—</div>
+        </div>
+        <hr class="job-divider">
+        <div class="job-field">
+          <div class="job-field-label">Service</div>
+          <div class="job-field-value" id="s2JobType">—</div>
+        </div>
+        <div class="job-field">
+          <div class="job-field-label">Scope of Work Completed</div>
+          <div class="job-field-value" id="s2Scope" style="color:#333;line-height:1.6;">—</div>
+        </div>
+        <hr class="job-divider">
+        <div class="job-field">
+          <div class="job-field-label">Total</div>
+          <div class="job-field-value large" id="s2Price">$0.00</div>
+        </div>
+        <div class="job-field">
+          <div class="job-field-label">Payment Status</div>
+          <div class="job-field-value" id="s2PayStatus">—</div>
+        </div>
+        <hr class="job-divider">
+        <div class="job-field">
+          <div class="job-field-label">Warranty</div>
+          <div class="job-field-value" style="font-size:13px;color:#555;line-height:1.5;">90-Day Workmanship Warranty. Swedish Hammer LLC warrants all labor against defects in workmanship for 90 days from today. Workmanship only — does not cover misuse or normal wear.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGNATURE -->
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#888;margin-bottom:8px;">Client Signature</div>
+    <div class="sig-wrap" id="sigWrap">
+      <span class="sig-label">Sign here with your finger</span>
+      <canvas id="sigCanvas" height="160"></canvas>
+    </div>
+    <button class="sig-clear" onclick="clearSig()">✕ Clear signature</button>
+
+    <div class="s2-field">
+      <label>Print Name</label>
+      <input type="text" id="printName" placeholder="Full printed name" autocomplete="name">
+    </div>
+
+    <div class="auth-check">
+      <input type="checkbox" id="authCheck">
+      <label for="authCheck">I confirm the work described above has been completed to my satisfaction. I authorize payment as stated and acknowledge the 90-day workmanship warranty.</label>
+    </div>
+
+    <button class="s2-btn-gold" onclick="completeSignOff()">Complete Sign-Off</button>
+    <button class="btn btn-ghost" onclick="goBack()" style="margin-top:10px;">← Back to Edit</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 3 — CONFIRMATION
+══════════════════════════════════════ -->
+<div class="screen" id="screen3">
+  <div class="topbar">
+    <div class="topbar-brand">⚒ Swedish Hammer</div>
+    <div class="topbar-step">Step 3 of 3 — Complete</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+
+  <div class="content">
+    <div class="confirm-hero">
+      <div class="confirm-check">✓</div>
+      <div class="confirm-title">Signed Off</div>
+      <div class="confirm-sub">Job complete — record saved</div>
+    </div>
+
+    <div class="ref-block">
+      <div class="ref-label">Reference Number</div>
+      <div class="ref-number" id="refNumber">SH-000000-0000</div>
+      <div class="ref-copy">Save or share this number for your records</div>
+    </div>
+
+    <div class="sig-preview">
+      <div class="sig-preview-label">Client Signature on File</div>
+      <img id="sigPreviewImg" src="" alt="Signature">
+    </div>
+
+    <div class="summary-block" id="finalSummary"></div>
+
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="shareRecord()">Share Record</button>
+      <button class="btn btn-outline" onclick="printRecord()">Print / PDF</button>
+    </div>
+    <button class="btn btn-ghost" onclick="newSignOff()" style="margin-top:10px;">Start New Sign-Off</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════
+// STATE
+// ══════════════════════════════════════
+let currentRecord = {};
+let sigDrawn = false;
+
+// ══════════════════════════════════════
+// SIGNATURE CANVAS
+// ══════════════════════════════════════
+const canvas = document.getElementById('sigCanvas');
+const ctx = canvas.getContext('2d');
+let drawing = false;
+let lastX = 0, lastY = 0;
+
+function resizeCanvas() {
+  const rect = canvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = rect.width * dpr;
+  canvas.height = 160 * dpr;
+  ctx.scale(dpr, dpr);
+  ctx.strokeStyle = '#0d1b2a';
+  ctx.lineWidth = 2.5;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+}
+
+function getPos(e) {
+  const rect = canvas.getBoundingClientRect();
+  if (e.touches) {
+    return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+  }
+  return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+}
+
+canvas.addEventListener('mousedown', e => { drawing = true; const p = getPos(e); lastX = p.x; lastY = p.y; });
+canvas.addEventListener('mousemove', e => {
+  if (!drawing) return;
+  const p = getPos(e);
+  ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(p.x, p.y); ctx.stroke();
+  lastX = p.x; lastY = p.y;
+  markSigned();
+});
+canvas.addEventListener('mouseup', () => { drawing = false; });
+canvas.addEventListener('mouseleave', () => { drawing = false; });
+
+canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; const p = getPos(e); lastX = p.x; lastY = p.y; }, { passive: false });
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  if (!drawing) return;
+  const p = getPos(e);
+  ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(p.x, p.y); ctx.stroke();
+  lastX = p.x; lastY = p.y;
+  markSigned();
+}, { passive: false });
+canvas.addEventListener('touchend', () => { drawing = false; });
+
+function markSigned() {
+  sigDrawn = true;
+  document.getElementById('sigWrap').classList.add('signed');
+}
+
+function clearSig() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  sigDrawn = false;
+  document.getElementById('sigWrap').classList.remove('signed');
+}
+
+// ══════════════════════════════════════
+// SCREEN NAVIGATION
+// ══════════════════════════════════════
+function showScreen(n) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen' + n).classList.add('active');
+  window.scrollTo(0, 0);
+  // Apply any pending canvas resize when screen2 becomes active
+  if (n === 2 && _canvasNeedsResize) {
+    _canvasNeedsResize = false;
+    resizeCanvas();
+    if (sigDrawn) { clearSig(); toast('Screen was rotated — please re-sign'); }
+  }
+}
+
+var _canvasNeedsResize = false;
+
+function goToScreen2() {
+  const name = document.getElementById('clientName').value.trim();
+  const scope = document.getElementById('scopeWork').value.trim();
+  const jobType = document.getElementById('jobType').value;
+  if (!name) { toast('Enter client name'); return; }
+  if (!jobType) { toast('Select a job type'); return; }
+  if (!scope) { toast('Enter scope of work'); return; }
+
+  // Save draft to localStorage
+  saveDraft();
+
+  // Populate screen 2
+  const now = new Date();
+  document.getElementById('s2Date').innerHTML = now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'}) + '<br>' + now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  document.getElementById('s2ClientName').textContent = name;
+  document.getElementById('s2Addr').textContent = document.getElementById('propAddr').value || '—';
+  document.getElementById('s2JobType').textContent = jobType;
+  document.getElementById('s2Scope').textContent = scope;
+  const price = parseFloat(document.getElementById('totalPrice').value) || 0;
+  document.getElementById('s2Price').textContent = '$' + price.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('s2PayStatus').textContent = document.getElementById('payStatus').value;
+
+  // Resize canvas after screen is visible
+  showScreen(2);
+  // Use rAF to wait for layout — retries until canvas has valid width
+  // Prevents race condition where user can sign before canvas is sized
+  let _rafAttempts = 0;
+  function _waitForLayout() {
+    const w = canvas.getBoundingClientRect().width;
+    if (w > 0 || _rafAttempts > 20) {
+      resizeCanvas();
+      // If sigDrawn was stale-true from a pre-layout touch, reset it
+      if (sigDrawn) {
+        clearSig();
+        toast('Please sign below');
+      }
+    } else {
+      _rafAttempts++;
+      requestAnimationFrame(_waitForLayout);
+    }
+  }
+  requestAnimationFrame(_waitForLayout);
+}
+
+function goBack() {
+  clearSig();
+  document.getElementById('printName').value = '';
+  document.getElementById('authCheck').checked = false;
+  showScreen(1);
+}
+
+function completeSignOff() {
+  if (!sigDrawn) { toast('Signature required'); return; }
+  const printName = document.getElementById('printName').value.trim();
+  if (!printName) { toast('Printed name required'); return; }
+  if (!document.getElementById('authCheck').checked) { toast('Please check the authorization box'); return; }
+
+  // Build record
+  const now = new Date();
+  const refNum = 'SH-' + now.getFullYear().toString().slice(2) +
+    String(now.getMonth()+1).padStart(2,'0') +
+    String(now.getDate()).padStart(2,'0') + '-' +
+    String(now.getHours()).padStart(2,'0') +
+    String(now.getMinutes()).padStart(2,'0');
+
+  currentRecord = {
+    refNum,
+    timestamp: now.toISOString(),
+    clientName: document.getElementById('clientName').value.trim(),
+    clientPhone: document.getElementById('clientPhone').value.trim(),
+    clientEmail: document.getElementById('clientEmail').value.trim(),
+    propAddr: document.getElementById('propAddr').value.trim(),
+    jobType: document.getElementById('jobType').value,
+    scopeWork: document.getElementById('scopeWork').value.trim(),
+    totalPrice: parseFloat(document.getElementById('totalPrice').value) || 0,
+    payStatus: document.getElementById('payStatus').value,
+    addlNotes: document.getElementById('addlNotes').value.trim(),
+    printName,
+    sigDataURL: canvas.toDataURL('image/png'),
+    dateStr: now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}),
+    timeStr: now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})
+  };
+
+  // Save to localStorage
+  // Store sig separately to avoid localStorage quota issues
+  try { localStorage.setItem('sh_sig_' + refNum, canvas.toDataURL('image/png')); } catch(e) {}
+  const recordToSave = Object.assign({}, currentRecord);
+  delete recordToSave.sigDataURL;
+  saveRecord(recordToSave);
+
+  // Populate screen 3
+  document.getElementById('refNumber').textContent = refNum;
+  document.getElementById('sigPreviewImg').src = currentRecord.sigDataURL;
+
+  const summary = document.getElementById('finalSummary');
+  summary.innerHTML = [
+    ['Client', currentRecord.clientName],
+    ['Address', currentRecord.propAddr || '—'],
+    ['Service', currentRecord.jobType],
+    ['Total', '$' + currentRecord.totalPrice.toLocaleString('en-US',{minimumFractionDigits:2})],
+    ['Payment', currentRecord.payStatus],
+    ['Signed By', currentRecord.printName],
+    ['Date / Time', currentRecord.dateStr + ' at ' + currentRecord.timeStr],
+  ].map(([k,v]) => `<div class="summary-row"><span>${escHtml(k)}</span><span>${escHtml(String(v))}</span></div>`).join('');
+
+  showScreen(3);
+}
+
+// ══════════════════════════════════════
+// SAVE / LOAD / EXPORT
+// ══════════════════════════════════════
+function saveRecord(record) {
+  try {
+    const records = JSON.parse(localStorage.getItem('sh_signoff_records') || '[]');
+    records.unshift(record);
+    // Keep last 100 records — clean up orphaned sig keys for trimmed records
+    if (records.length > 100) {
+      const trimmed = records.splice(100);
+      trimmed.forEach(r => {
+        try { localStorage.removeItem('sh_sig_' + r.refNum); } catch(e) {}
+      });
+    }
+    localStorage.setItem('sh_signoff_records', JSON.stringify(records));
+  } catch(e) { console.warn('Storage error:', e); }
+}
+
+function saveDraft() {
+  try {
+    const draft = {
+      clientName: document.getElementById('clientName').value,
+      clientPhone: document.getElementById('clientPhone').value,
+      clientEmail: document.getElementById('clientEmail').value,
+      propAddr: document.getElementById('propAddr').value,
+      jobType: document.getElementById('jobType').value,
+      scopeWork: document.getElementById('scopeWork').value,
+      totalPrice: document.getElementById('totalPrice').value,
+      payStatus: document.getElementById('payStatus').value,
+      addlNotes: document.getElementById('addlNotes').value,
+    };
+    localStorage.setItem('sh_signoff_draft', JSON.stringify(draft));
+  } catch(e) {}
+}
+
+function loadDraft() {
+  try {
+    const draft = JSON.parse(localStorage.getItem('sh_signoff_draft') || 'null');
+    if (!draft) { toast('No saved draft found'); return; }
+    document.getElementById('clientName').value = draft.clientName || '';
+    document.getElementById('clientPhone').value = draft.clientPhone || '';
+    document.getElementById('clientEmail').value = draft.clientEmail || '';
+    document.getElementById('propAddr').value = draft.propAddr || '';
+    document.getElementById('jobType').value = draft.jobType || '';
+    document.getElementById('scopeWork').value = draft.scopeWork || '';
+    document.getElementById('totalPrice').value = draft.totalPrice || '';
+    document.getElementById('payStatus').value = draft.payStatus || 'Paid in Full';
+    document.getElementById('addlNotes').value = draft.addlNotes || '';
+    toast('Draft loaded');
+  } catch(e) { toast('Could not load draft'); }
+}
+
+function shareRecord() {
+  if (!currentRecord || !currentRecord.refNum) {
+    toast('No record to share');
+    return;
+  }
+  const r = currentRecord;
+  const text = [
+    'SWEDISH HAMMER LLC — JOB SIGN-OFF',
+    'Ref: ' + r.refNum,
+    'Date: ' + r.dateStr + ' at ' + r.timeStr,
+    '',
+    'CLIENT: ' + r.clientName,
+    'ADDRESS: ' + (r.propAddr || '—'),
+    'PHONE: ' + (r.clientPhone || '—'),
+    'EMAIL: ' + (r.clientEmail || '—'),
+    '',
+    'SERVICE: ' + r.jobType,
+    'SCOPE: ' + r.scopeWork,
+    '',
+    'TOTAL: $' + r.totalPrice.toLocaleString('en-US',{minimumFractionDigits:2}),
+    'PAYMENT: ' + r.payStatus,
+    '',
+    'SIGNED BY: ' + r.printName,
+    'WARRANTY: 90-Day Workmanship Warranty applies.',
+    r.addlNotes ? '\nNOTES: ' + r.addlNotes : '',
+    '',
+    '720-580-3827 · service@swedishhammer.com · swedishhammer.com'
+  ].filter(Boolean).join('\n');
+
+  if (navigator.share) {
+    navigator.share({ title: 'Job Sign-Off ' + r.refNum, text }).catch(() => copyToClipboard(text));
+  } else {
+    copyToClipboard(text);
+  }
+}
+
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard')).catch(() => toast('Could not copy'));
+}
+
+function printRecord() {
+  showScreen(2);
+  setTimeout(() => { window.print(); setTimeout(() => showScreen(3), 500); }, 300);
+}
+
+function newSignOff() {
+  // Clear form
+  ['clientName','clientPhone','clientEmail','propAddr','scopeWork','totalPrice','addlNotes','printName'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('jobType').selectedIndex = 0;
+  document.getElementById('payStatus').selectedIndex = 0;
+  document.getElementById('authCheck').checked = false;
+  clearSig();
+  currentRecord = {};
+  try { localStorage.removeItem('sh_signoff_draft'); } catch(e) {}
+  showScreen(1);
+}
+
+// ══════════════════════════════════════
+// UTILITIES
+// ══════════════════════════════════════
+var _toastTimer = null;
+function escHtml(str) {
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  if (_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => { t.classList.remove('show'); _toastTimer = null; }, 2800);
+}
+
+// Resize canvas on orientation change
+window.addEventListener('resize', () => {
+  if (document.getElementById('screen2').classList.contains('active')) {
+    const wasDrawn = sigDrawn;
+    resizeCanvas();
+    if (wasDrawn) toast('Screen rotated — please re-sign');
+  } else {
+    // Mark canvas as needing resize when screen2 becomes active
+    _canvasNeedsResize = true;
+  }
+});
+
+// Init canvas on load
+window.addEventListener('load', () => {
+  // Offer to restore draft if one exists
+  try {
+    const draft = JSON.parse(localStorage.getItem('sh_signoff_draft') || 'null');
+    if (draft && draft.clientName) {
+      if (confirm('Resume last job for ' + draft.clientName + '?')) {
+        loadDraft();
+      } else {
+        localStorage.removeItem('sh_signoff_draft');
+      }
+    }
+  } catch(e) {}
+});
+
+// Service worker for offline
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw-signoff.js').catch(() => {});
+}
+</script>
+</body>
+</html>
